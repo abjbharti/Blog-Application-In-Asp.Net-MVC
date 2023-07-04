@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - By abjbharti</title>
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <script src="~/Scripts/modernizr-2.6.2.js"></script>
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Home Page", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav flex-grow-1">
+
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        if (User.IsInRole("admin"))
+                        {
+                            <li>@Html.ActionLink("Home", "Index", "Admin", new { area = "" }, new { @class = "nav-link" })</li>
+                            <li>@Html.ActionLink("Disabled-Posts", "DisabledPosts", "Admin", new { area = "" }, new { @class = "nav-link" })</li>
+                        }
+                        else
+                        {
+                            <li>@Html.ActionLink("Home", "Home", "Blogs", new { area = "" }, new { @class = "nav-link" })</li>
+                            <li>@Html.ActionLink("MyPosts", "Index", "Blogs", new { area = "" }, new { @class = "nav-link" })</li>
+                        }
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Login", "Login", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                        <li>@Html.ActionLink("Signup", "Signup", "Home", new { area = "" }, new { @class = "navbar-brand" })</li>
+                    }
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        if (User.IsInRole("user"))
+                        {
+                            <li class="nav-link"><a>User - @User.Identity.Name</a></li>
+
+                        }
+                        else
+                        {
+                            <li class="nav-link"><a>Admin - @User.Identity.Name</a></li>
+
+                        }
+                        <li>@Html.ActionLink("Logout", "Logout", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+
+                    }
+                </ul>
+
+
+            </div>
+        </div>
+    </div>
+
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - By abjbharti</p>
+        </footer>
+    </div>
+
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+</body>
+</html>
